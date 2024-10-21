@@ -1,6 +1,6 @@
 # Tern🐧 - MySQL Versioning for Python
 
-This project is a database migration tool that helps manage and apply database schema changes. It uses a JSON file to define the changes and applies them to a MySQL database.
+This project is a database migration tool that helps manage and apply database schema changes. It uses a JSON file to define the changes and applies them to a MySQL database. It is named after a bird called [Arctic Tern](https://en.wikipedia.org/wiki/Arctic_tern) which can migrate the longest distance. Yearly migration can range from 44,000 miles to 59,000 miles.
 
 
 ### Files
