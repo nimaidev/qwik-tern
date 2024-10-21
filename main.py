@@ -1,8 +1,8 @@
 
 
 import argparse
-from connection import create_internal_db, get_connection_pool
-from migration import process_migration, process_migration_down, read_migration_from_file
+from utilities.connection import create_internal_db, get_connection_pool
+from utilities.migration import process_migration, process_migration_down, read_migration_from_file
 
 
 cnx_pool = get_connection_pool()
