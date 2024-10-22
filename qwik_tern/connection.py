@@ -1,3 +1,4 @@
+import string
 from mysql.connector.pooling import MySQLConnectionPool
 from typing import Dict, Any
 from qwik_tern.logger import setup_logger
@@ -27,8 +28,9 @@ def create_internal_db(cnxPool: MySQLConnectionPool) -> bool:
     cnx = cnxPool.get_connection()
     cursor = cnx.cursor()
     try:
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS `db_changelog` (
+        logger.info("Executing SQL command to create db_changelog table...")
+        query : string = """
+         CREATE TABLE IF NOT EXISTS `db_changelog` (
                 `id` INT AUTO_INCREMENT PRIMARY KEY,
                 `change_id` VARCHAR(255) NOT NULL,
                 `author` VARCHAR(255) NOT NULL,
@@ -37,7 +39,10 @@ def create_internal_db(cnxPool: MySQLConnectionPool) -> bool:
                 `status` VARCHAR(10) DEFAULT 1,
                 `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
-        """)
+        """
+        logger.info(f"Executing query: {query}")
+        cursor.execute(query)
+        logger.info("SQL command executed successfully.")
         cnx.commit()
         logger.info("Internal database created...")
         return True
@@ -45,5 +50,7 @@ def create_internal_db(cnxPool: MySQLConnectionPool) -> bool:
         logger.error(f"Error: {e}")
         return False
     finally:
+        logger.info("Closing cursor and connection...")
         cursor.close()
         cnx.close()
+        logger.info("Cursor and connection closed.")
