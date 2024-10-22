@@ -106,7 +106,7 @@ def _process_migration(cnx_pool: MySQLConnectionPool, changes: pd.DataFrame) -> 
                         if _compare_checksum(row["checksum"], change.get("migrateUp")):
                             continue
                         else:
-                            logger.critical("Invalid Checksum!!! \nprevious checksum: ", row["checksum"], "current checksum: ", _calculate_checksum(change.get("migrateUp")))
+                            logger.critical("Invalid Checksum!!! previous checksum: %s current checksum:%s ", row["checksum"], _calculate_checksum(change.get("migrateUp")))
                             sys.exit("Terminating program due to checksum mismatch.")
                         continue
                 _insert_data(cnx_pool, change)
