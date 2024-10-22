@@ -3,7 +3,7 @@
 import argparse
 
 from qwik_tern.connection import create_internal_db, get_connection_pool
-from qwik_tern.migration import process_migration
+from qwik_tern.migration import process_migration, run_default_migration, run_migration_down
 
 
 
@@ -27,7 +27,7 @@ if __name__ == '__main__':
     status = False
     if args.migrate.lower() == "up":
         print("Running UP changes")
-        status = process_migration(cnx_pool)
+        status = run_default_migration(migration_filename ="changes.json", cnx_pool = cnx_pool)
         if status:
             print("Migration completed successfully")
         else:
@@ -35,7 +35,7 @@ if __name__ == '__main__':
     elif args.migrate.lower() == "down":
         print("Running DOWN migration By One change")
         # Example: Handle rollback by reading and processing a down migration file
-        status = process_migration_down(cnx_pool)
+        status = run_migration_down(migration_filename ="changes.json", cnx_pool = cnx_pool)
         if status:
             print("Migration completed successfully")
         else:

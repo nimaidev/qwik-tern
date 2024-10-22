@@ -1,12 +1,13 @@
 from mysql.connector.pooling import MySQLConnectionPool
-
-
 from typing import Dict, Any
+from qwik_tern.logger import setup_logger
+
+logger = setup_logger(__name__)
 
 def get_connection_pool(config: Dict[str, Any]) -> Any:
-    print("Connecting to server...")
+    logger.info("Connecting to server...")
     if not config:
-        print("No database configuration found...")
+        logger.error("No database configuration found...")
         return
     db_config = config
     try:
@@ -15,18 +16,17 @@ def get_connection_pool(config: Dict[str, Any]) -> Any:
             pool_size=10,
             **db_config
         )
-        print("Connected to server...")
+        logger.info("Connected to server...")
         return mysql_pool
     except Exception as e:
-        print(f"Error: {e}")
+        logger.critical(f"Error: {e}")
         return None
 
-def create_internal_db(cnxPool : MySQLConnectionPool) -> bool:
-    print("Creating internal database...")
+def create_internal_db(cnxPool: MySQLConnectionPool) -> bool:
+    logger.info("Creating internal database...")
     cnx = cnxPool.get_connection()
     cursor = cnx.cursor()
     try:
-        # TODO: need not to create table if already exists
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS `db_changelog` (
                 `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -37,14 +37,13 @@ def create_internal_db(cnxPool : MySQLConnectionPool) -> bool:
                 `status` VARCHAR(10) DEFAULT 1,
                 `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
-            """)
-        
+        """)
         cnx.commit()
-        print("Internal database created...")
+        logger.info("Internal database created...")
+        return True
     except Exception as e:
-        print(f"Error: {e}")
+        logger.error(f"Error: {e}")
         return False
     finally:
         cursor.close()
         cnx.close()
-    return True
