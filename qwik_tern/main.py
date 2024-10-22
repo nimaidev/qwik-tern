@@ -1,8 +1,10 @@
 
 
 import argparse
-from utilities.connection import create_internal_db, get_connection_pool
-from utilities.migration import process_migration, process_migration_down, read_migration_from_file
+
+from qwik_tern.connection import create_internal_db, get_connection_pool
+from qwik_tern.migration import process_migration
+
 
 
 cnx_pool = get_connection_pool()
