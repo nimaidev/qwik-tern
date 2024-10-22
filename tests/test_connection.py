@@ -1,6 +1,6 @@
 import unittest
 from mysql.connector.pooling import MySQLConnectionPool
-from connection import get_connection_pool, create_internal_db
+from qwik_tern.connection import get_connection_pool, create_internal_db
 
 class TestConnection(unittest.TestCase):
     db_config = {
@@ -13,7 +13,7 @@ class TestConnection(unittest.TestCase):
     }
 
     def test_get_connection_pool(self):
-        pool = get_connection_pool(self.db_config)
+        pool: MySQLConnectionPool = get_connection_pool(self.db_config)
         self.assertIsNotNone(pool)
 
     def test_create_internal_db(self):

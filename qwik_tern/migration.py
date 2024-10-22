@@ -6,10 +6,8 @@ import hashlib
 import pandas as pd
 import yaml
 
-from utilities.connection import get_connection_pool, MySQLConnectionPool
+from qwik_tern.connection import get_connection_pool, MySQLConnectionPool
 import sys
-
-cnx_pool = get_connection_pool()
 
 def read_migration_from_file(file_name : string):
     with open(file_name, 'r') as file:
