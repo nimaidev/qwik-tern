@@ -70,7 +70,7 @@ def _process_migration(cnx_pool: MySQLConnectionPool, changes: pd.DataFrame) -> 
     ids = changes.apply(lambda x: x["id"])
     duplicate_ids = ids[ids.duplicated()]
     if not duplicate_ids.empty:
-        logger.critical("Duplicate IDs found:", duplicate_ids.tolist())
+        logger.critical("Duplicate IDs found: %s", duplicate_ids.tolist())
         sys.exit("Terminating program due to duplicate IDs.")
     else:
         logger.info("No duplicate IDs found")
@@ -161,7 +161,7 @@ def _insert_data(cnx_pool, change):
                 return False
             
             status = False
-            logger.info("Migration Up: ", change.get("migrateUp"))
+            logger.info("Migration Up: %s", change.get("migrateUp"))
             try:
                 cursor.execute(change.get("migrateUp"))
                 status = True
