@@ -1,17 +1,14 @@
 from mysql.connector.pooling import MySQLConnectionPool
 
 
-def get_connection_pool() -> any:
-    print("Connecting to server...")
-    db_config = {
-        'host': '10.10.10.11',
-        'port': '3306',
-        'user' : "remote",
-        'password' : "Nimai@123",
-        'database' : "ai_service",
-        'auth_plugin': 'mysql_native_password'
-    }
+from typing import Dict, Any
 
+def get_connection_pool(config: Dict[str, Any]) -> Any:
+    print("Connecting to server...")
+    if not config:
+        print("No database configuration found...")
+        return
+    db_config = config
     try:
         mysql_pool = MySQLConnectionPool(
             pool_name="mysql_pool",
@@ -24,10 +21,9 @@ def get_connection_pool() -> any:
         print(f"Error: {e}")
         return None
 
-def create_internal_db() -> bool:
-    cnx_pool = get_connection_pool()
+def create_internal_db(cnxPool : MySQLConnectionPool) -> bool:
     print("Creating internal database...")
-    cnx = cnx_pool.get_connection()
+    cnx = cnxPool.get_connection()
     cursor = cnx.cursor()
     try:
         # TODO: need not to create table if already exists
