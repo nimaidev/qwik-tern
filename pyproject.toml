@@ -1,0 +1,22 @@
+[project]
+name = "tern"
+version = "0.0.1"
+authors = [
+  { name="Nimai C", email="nimaic.dev@gmail.com" },
+]
+description = "This project is a database migration tool that helps manage and apply database schema changes. It uses a JSON file to define the changes and applies them to a MySQL database."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    # "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/nimaidev/tern"
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
