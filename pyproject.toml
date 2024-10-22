@@ -1,6 +1,6 @@
 [project]
 name = "qwik-tern"
-version = "0.0.5.3"
+version = "0.0.6"
 authors = [
   { name="Nimai C", email="nimaic.dev@gmail.com" },
 ]
