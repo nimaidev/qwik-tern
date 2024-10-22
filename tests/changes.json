@@ -1,0 +1,15 @@
+{
+    "changeSet": [
+        {
+            "id": "1",
+            "author": "John Doe",
+            "description": "Initial version",
+            "date": "2019-01-01",
+            "comment": "Initial version",
+            "check": " SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'ai_service' AND table_name = 'my_table';",
+            "onFail": "SKIP",
+            "migrateUp": "CREATE TABLE my_table (id INT PRIMARY KEY, name VARCHAR(255));",
+            "migrateDown": "DROP TABLE my_table;"
+        }
+    ]
+}

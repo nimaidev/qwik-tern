@@ -1,6 +1,7 @@
 import unittest
 from mysql.connector.pooling import MySQLConnectionPool
 from qwik_tern.connection import get_connection_pool, create_internal_db
+from qwik_tern.migration import run_default_migration
 
 class TestConnection(unittest.TestCase):
     db_config = {
@@ -34,6 +35,9 @@ class TestConnection(unittest.TestCase):
         # Clean up
         cursor.execute("DROP TABLE IF EXISTS db_changelog")
         con.commit()
+        
+        status = run_default_migration(migration_filename ="changes.json", cnx_pool = pool)
+        self.assertTrue(status)
 
 if __name__ == '__main__':
     unittest.main()
