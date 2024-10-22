@@ -36,7 +36,7 @@ def create_internal_db(cnxPool: MySQLConnectionPool) -> bool:
                 `author` VARCHAR(255) NOT NULL,
                 `checksum` VARCHAR(255) NOT NULL,
                 `description` TEXT NOT NULL,
-                `status` VARCHAR(10) DEFAULT,
+                `status` VARCHAR(10),
                 `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
         """
