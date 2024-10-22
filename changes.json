@@ -6,40 +6,10 @@
             "description": "Initial version",
             "date": "2019-01-01",
             "comment": "Initial version",
+            "check": " SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'ai_service' AND table_name = 'my_table';",
+            "onFail": "SKIP",
             "migrateUp": "CREATE TABLE my_table (id INT PRIMARY KEY, name VARCHAR(255));",
             "migrateDown": "DROP TABLE my_table;"
-        }, {
-            "id": "2",
-            "author": "John Doe",
-            "description": "Initial version",
-            "date": "2019-01-02",
-            "comment": "Add column",
-            "migrateUp": "ALTER TABLE my_table ADD COLUMN age INT;",
-            "migrateDown": "ALTER TABLE my_table DROP COLUMN age;"
-        }, {
-            "id": "3",
-            "author": "John Doe",
-            "description": "Initial version",
-            "date": "2019-01-03",
-            "comment": "Add column",
-            "migrateUp": "ALTER TABLE my_table ADD COLUMN email VARCHAR(255);",
-            "migrateDown": "ALTER TABLE my_table DROP COLUMN email;"
-        }, {
-            "id": "4",
-            "author": "John Doe",
-            "description": "Initial version",
-            "date": "2019-01-03",
-            "comment": "Add column",
-            "migrateUp": "ALTER TABLE my_table ADD COLUMN test VARCHAR(255);",
-            "migrateDown": "ALTER TABLE my_table DROP COLUMN test;"
-        },{
-            "id": "5",
-            "author": "John Doe",
-            "description": "Initial version",
-            "date": "2019-01-03",
-            "comment": "Add column",
-            "migrateUp": "ALTER TABLE my_table ADD COLUMN test2 VARCHAR(255);",
-            "migrateDown": "ALTER TABLE my_table DROP COLUMN test2;"
         }
     ]
 }

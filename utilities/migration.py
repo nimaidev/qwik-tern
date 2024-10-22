@@ -6,7 +6,7 @@ import hashlib
 import pandas as pd
 import yaml
 
-from connection import get_connection_pool
+from utilities.connection import get_connection_pool, MySQLConnectionPool
 import sys
 
 cnx_pool = get_connection_pool()
@@ -17,7 +17,7 @@ def read_migration_from_file(file_name : string):
 
 
 
-def process_migration_down(cnx_pool) -> bool:
+def process_migration_down(cnx_pool : MySQLConnectionPool) -> bool:
     changes = pd.read_json("changes.json").changeSet
     #  get the last change ID from the db
     try:
@@ -56,7 +56,7 @@ def process_migration_down(cnx_pool) -> bool:
     
     
 
-def process_migration(cnx_pool):
+def process_migration(cnx_pool : MySQLConnectionPool) -> bool:
     changes = pd.read_json("changes.json").changeSet
     # get all ids and check for duplicates
     ids = changes.apply(lambda x: x["id"])
@@ -79,7 +79,22 @@ def process_migration(cnx_pool):
     
     for change in changes:
         keyFile = change.get("id")+change.get("author")
+        if change.get("check") != None:
+            exists = check_Query_Exectuion(cnx_pool, change)
+            if exists:
+                print("TABLE already exists.")
+                query =  get_changelog_insert_query(
+                    change.get("id"),
+                    change.get("author"),
+                    calculate_checksum(change.get("migrateUp")),
+                    change.get("description"),
+                    "SKIP"
+                )
+                if not check_if_entry_exists(change.get("id"), change.get("author"), cnx_pool):
+                    add_entry_to_changelog_table(query, cnx_pool)
+                continue
         for _, row in data.iterrows():
+                
             keyDb = row["change_id"]+row["author"]
             if keyFile == keyDb:
                 if compare_checksum(row["checksum"], change.get("migrateUp")):
@@ -97,7 +112,26 @@ def process_migration(cnx_pool):
         continue
                 
             
-
+def check_Query_Exectuion(cnx_pool : MySQLConnectionPool, change : pd.DataFrame) -> bool:
+    con = cnx_pool.get_connection()
+    cursor = con.cursor()
+    try:
+        # Check Query Always starts with SELECT 
+        checkQuery: str = change.get("check").strip()     
+        if not checkQuery.startswith("SELECT"):
+            print("Invalid Check Query!!!")
+            sys.exit("Terminating program due to invalid check query. Should Alaways start with SELECT")
+        cursor.execute(change.get("check"))
+        result = cursor.fetchone()
+        if result[0] > 0:
+            print("126: Change already exists.")
+            return True
+        else:
+            print("Record not found")
+            return False
+    except Exception as e:
+        print(f"Error: {e}")
+        return False
 
 def insert_data(cnx_pool, change):
     con = cnx_pool.get_connection()
@@ -123,17 +157,9 @@ def insert_data(cnx_pool, change):
             status = False
         statusText = "SUCCESS" if status else "FAILED"
         
-        cursor.execute("""
-            INSERT INTO db_changelog (change_id, author, checksum, description, status)
-            VALUES (%s, %s, %s, %s, %s)
-            """, (
-                change.get("id"), 
-                change.get("author"), 
-                calculate_checksum(change.get("migrateUp")), 
-                change.get("description"), 
-                statusText
-            )
-        )
+        query = get_changelog_insert_query(change.get("id"), change.get("author"), calculate_checksum(change.get("migrateUp")), change.get("description"), statusText)
+        
+        cursor.execute(query)
         con.commit()
     except Exception as e:
         print(f"Error: {e}")
@@ -141,6 +167,35 @@ def insert_data(cnx_pool, change):
     con.close()
     return True
 
+def get_changelog_insert_query(change_id: string, author: string, checksum: string, description: string, status: string) -> string:
+    return f"""
+        INSERT INTO db_changelog (change_id, author, checksum, description, status)
+        VALUES ('{change_id}', '{author}', '{checksum}', '{description}', '{status}');
+    """
+    
+def check_if_entry_exists(change_id: string, author: string, cnx : MySQLConnectionPool) -> bool:
+    con = cnx.get_connection()
+    cursor = con.cursor()
+    cursor.execute("""
+        SELECT COUNT(*) FROM db_changelog 
+        WHERE change_id = %s AND author = %s
+    """, (change_id, author))
+    result = cursor.fetchone()
+    con.close()
+    return result[0] > 0
+
+def add_entry_to_changelog_table(query: string, cnx : MySQLConnectionPool) -> bool:
+    con = cnx.get_connection()
+    cursor = con.cursor()
+    try:
+        cursor.execute(query)
+        con.commit()
+        con.close()
+        return True
+    except Exception as e:
+        print(f"Error: {e}")
+        con.close()
+        return False
 
 
 def calculate_checksum(changeText: str) -> str:

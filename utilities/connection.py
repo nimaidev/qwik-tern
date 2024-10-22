@@ -8,7 +8,7 @@ def get_connection_pool() -> any:
         'port': '3306',
         'user' : "remote",
         'password' : "Nimai@123",
-        'database' : "ai-service",
+        'database' : "ai_service",
         'auth_plugin': 'mysql_native_password'
     }
 
