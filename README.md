@@ -1,88 +1,63 @@
-# Tern🐧 - MySQL Versioning for Python
+# Qwik-Tern🐧 - MySQL Versioning for Python
 
-This project is a database migration tool that helps manage and apply database schema changes. It uses a JSON file to define the changes and applies them to a MySQL database. It is named after a bird called [Arctic Tern](https://en.wikipedia.org/wiki/Arctic_tern) which can migrate the longest distance. Yearly migration can range from 44,000 miles to 59,000 miles.
+## Overview
+`qwik-tern` is a database migration tool that helps manage and apply schema changes to a MySQL database. It simplifies the process of updating database structures by defining changes in a single JSON file. Named after the Arctic Tern, a bird famous for its long migration journeys—spanning from 44,000 to 59,000 miles each year—`qwik-tern` enables efficient, reliable migrations for projects that require robust database evolution.
 
 
-### Files
+Here's an updated documentation that includes details on the `changes.json` file, including its location and structure.
 
-- `changes.json`: Contains the list of database changes to be applied.
-- `connection.py`: Manages the database connection pool.
-- `main.py`: Entry point for running the migration scripts.
-- `Makefile`: Contains commands to run the project.
-- `migration.py`: Contains functions to process migrations, calculate checksums, and insert data into the database.
-- `requirement.txt`: Lists the Python dependencies for the project.
-- `venv/`: Virtual environment directory.
+---
 
-## Setup
+# qwik-tern Documentation
 
-1. **Create a Virtual Environment**:
-    ```sh
-    python -m venv venv
-    ```
+## Overview
 
-2. **Activate the Virtual Environment**:
-    - On Windows:
-        ```sh
-        .\venv\Scripts\activate
-        ```
-    - On macOS/Linux:
-        ```sh
-        source venv/bin/activate
-        ```
+`qwik-tern` is a Python package designed to simplify database migrations. It provides an easy-to-use API for managing migrations directly within your application or as a standalone tool. 
 
-3. **Install Dependencies**:
-    ```sh
-    pip install -r requirement.txt
-    ```
+## Installation
+
+To install `qwik-tern` into an existing Python project, use `pip`:
+
+```bash
+pip install qwik-tern
+```
+
+Or, download the repository and run `qwik-tern` as a standalone application (see [Standalone Setup](#standalone-setup) for instructions).
 
 ## Usage
 
-### Running Migrations
+### In an Existing Python Project
 
-To run the migrations, use the [main.py](http://_vscodecontentref_/#%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22e%3A%5C%5CPython%5C%5Ctern%5C%5Cmain.py%22%2C%22_sep%22%3A1%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fmain.py%22%2C%22scheme%22%3A%22file%22%7D%7D) script with the appropriate arguments.
+Once installed, you can configure and use `qwik-tern` to manage your database migrations programmatically.
 
-- **Migrate Up**:
-    ```sh
-    python main.py --migrate up
-    ```
+#### Example Code
 
-- **Migrate Down**:
-    ```sh
-    python main.py --migrate down
-    ```
+```python
+import qwik_tern
 
-### Makefile
+# Database configuration
+db_config = {
+    'user': 'your_username',
+    'password': 'your_password',
+    'host': 'your_host',
+    'database': 'your_database'
+}
 
-You can also use the [Makefile](http://_vscodecontentref_/#%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22e%3A%5C%5CPython%5C%5Ctern%5C%5CMakefile%22%2C%22_sep%22%3A1%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2FMakefile%22%2C%22scheme%22%3A%22file%22%7D%7D) to run the project:
+# Get the connection pool
+cnx = qwik_tern.get_connection_pool(config=db_config)
 
-- **Run the Project**:
-    ```sh
-    make run
-    ```
+# Create the internal database
+qwik_tern.create_internal_db(cnx)
 
-## Code Overview
+# Run migrations from the migration file
+qwik_tern.run_default_migration(migration_filename="./changes.json", cnx_pool=cnx)
+```
 
-### [connection.py](http://_vscodecontentref_/#%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22e%3A%5C%5CPython%5C%5Ctern%5C%5Cconnection.py%22%2C%22_sep%22%3A1%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fconnection.py%22%2C%22scheme%22%3A%22file%22%7D%7D)
+### `changes.json` File
 
-- [`get_connection_pool()`](command:_github.copilot.openSymbolFromReferences?%5B%22%22%2C%5B%7B%22uri%22%3A%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fconnection.py%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%22pos%22%3A%7B%22line%22%3A3%2C%22character%22%3A4%7D%7D%2C%7B%22uri%22%3A%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fmain.py%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%22pos%22%3A%7B%22line%22%3A3%2C%22character%22%3A43%7D%7D%2C%7B%22uri%22%3A%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fmigration.py%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%22pos%22%3A%7B%22line%22%3A8%2C%22character%22%3A23%7D%7D%5D%2C%22a566a76a-77ec-4bb4-a3ec-a5469b4283f6%22%5D "Go to definition"): Returns a MySQL connection pool.
-- [`create_internal_db()`](command:_github.copilot.openSymbolFromReferences?%5B%22%22%2C%5B%7B%22uri%22%3A%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fconnection.py%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%22pos%22%3A%7B%22line%22%3A26%2C%22character%22%3A4%7D%7D%2C%7B%22uri%22%3A%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fmain.py%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%22pos%22%3A%7B%22line%22%3A3%2C%22character%22%3A23%7D%7D%5D%2C%22a566a76a-77ec-4bb4-a3ec-a5469b4283f6%22%5D "Go to definition"): Creates the internal database and the [`db_changelog`](command:_github.copilot.openSymbolFromReferences?%5B%22%22%2C%5B%7B%22uri%22%3A%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fconnection.py%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%22pos%22%3A%7B%22line%22%3A34%2C%22character%22%3A40%7D%7D%2C%7B%22uri%22%3A%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fmigration.py%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%22pos%22%3A%7B%22line%22%3A25%2C%22character%22%3A48%7D%7D%5D%2C%22a566a76a-77ec-4bb4-a3ec-a5469b4283f6%22%5D "Go to definition") table if it doesn't exist.
+The `changes.json` file should be located in the same directory as `main.py` and contains the list of migrations. Each migration has details on `migrateUp` (applying changes) and `migrateDown` (reverting changes). 
 
-### [migration.py](http://_vscodecontentref_/#%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22e%3A%5C%5CPython%5C%5Ctern%5C%5Cmigration.py%22%2C%22_sep%22%3A1%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fmigration.py%22%2C%22scheme%22%3A%22file%22%7D%7D)
-
-- [`process_migration_down(cnx_pool)`](command:_github.copilot.openSymbolFromReferences?%5B%22%22%2C%5B%7B%22uri%22%3A%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fmain.py%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%22pos%22%3A%7B%22line%22%3A4%2C%22character%22%3A41%7D%7D%2C%7B%22uri%22%3A%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fmigration.py%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%22pos%22%3A%7B%22line%22%3A19%2C%22character%22%3A4%7D%7D%5D%2C%22a566a76a-77ec-4bb4-a3ec-a5469b4283f6%22%5D "Go to definition"): Processes the down migration by one change.
-- [`process_migration(cnx_pool)`](command:_github.copilot.openSymbolFromReferences?%5B%22%22%2C%5B%7B%22uri%22%3A%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fmain.py%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%22pos%22%3A%7B%22line%22%3A4%2C%22character%22%3A22%7D%7D%2C%7B%22uri%22%3A%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fmigration.py%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%22pos%22%3A%7B%22line%22%3A58%2C%22character%22%3A4%7D%7D%5D%2C%22a566a76a-77ec-4bb4-a3ec-a5469b4283f6%22%5D "Go to definition"): Processes the up migration by applying all changes from the [changes.json](http://_vscodecontentref_/#%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22e%3A%5C%5CPython%5C%5Ctern%5C%5Cchanges.json%22%2C%22_sep%22%3A1%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fchanges.json%22%2C%22scheme%22%3A%22file%22%7D%7D) file.
-- [`insert_data(cnx_pool, change)`](command:_github.copilot.openSymbolFromReferences?%5B%22%22%2C%5B%7B%22uri%22%3A%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fmigration.py%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%22pos%22%3A%7B%22line%22%3A95%2C%22character%22%3A8%7D%7D%5D%2C%22a566a76a-77ec-4bb4-a3ec-a5469b4283f6%22%5D "Go to definition"): Inserts a change record into the [`db_changelog`](command:_github.copilot.openSymbolFromReferences?%5B%22%22%2C%5B%7B%22uri%22%3A%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fconnection.py%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%22pos%22%3A%7B%22line%22%3A34%2C%22character%22%3A40%7D%7D%2C%7B%22uri%22%3A%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fmigration.py%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%22pos%22%3A%7B%22line%22%3A25%2C%22character%22%3A48%7D%7D%5D%2C%22a566a76a-77ec-4bb4-a3ec-a5469b4283f6%22%5D "Go to definition") table.
-- [`calculate_checksum(changeText)`](command:_github.copilot.openSymbolFromReferences?%5B%22%22%2C%5B%7B%22uri%22%3A%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fmigration.py%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%22pos%22%3A%7B%22line%22%3A88%2C%22character%22%3A110%7D%7D%5D%2C%22a566a76a-77ec-4bb4-a3ec-a5469b4283f6%22%5D "Go to definition"): Calculates the SHA-256 checksum of a change text.
-- [`compare_checksum(checksum, changeText)`](command:_github.copilot.openSymbolFromReferences?%5B%22%22%2C%5B%7B%22uri%22%3A%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fmigration.py%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%22pos%22%3A%7B%22line%22%3A84%2C%22character%22%3A19%7D%7D%5D%2C%22a566a76a-77ec-4bb4-a3ec-a5469b4283f6%22%5D "Go to definition"): Compares the given checksum with the calculated checksum of a change text.
-- [`read_migration_from_file(file_name)`](command:_github.copilot.openSymbolFromReferences?%5B%22%22%2C%5B%7B%22uri%22%3A%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fmain.py%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%22pos%22%3A%7B%22line%22%3A4%2C%22character%22%3A65%7D%7D%2C%7B%22uri%22%3A%7B%22scheme%22%3A%22file%22%2C%22authority%22%3A%22%22%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fmigration.py%22%2C%22query%22%3A%22%22%2C%22fragment%22%3A%22%22%7D%2C%22pos%22%3A%7B%22line%22%3A13%2C%22character%22%3A4%7D%7D%5D%2C%22a566a76a-77ec-4bb4-a3ec-a5469b4283f6%22%5D "Go to definition"): Reads migration data from a YAML file.
-
-### [main.py](http://_vscodecontentref_/#%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22e%3A%5C%5CPython%5C%5Ctern%5C%5Cmain.py%22%2C%22_sep%22%3A1%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fmain.py%22%2C%22scheme%22%3A%22file%22%7D%7D)
-
-- Entry point for the migration tool.
-- Parses command-line arguments to determine whether to migrate up or down.
-- Calls the appropriate functions from [migration.py](http://_vscodecontentref_/#%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22e%3A%5C%5CPython%5C%5Ctern%5C%5Cmigration.py%22%2C%22_sep%22%3A1%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fmigration.py%22%2C%22scheme%22%3A%22file%22%7D%7D) to process the migrations.
-
-## Example [changes.json](http://_vscodecontentref_/#%7B%22uri%22%3A%7B%22%24mid%22%3A1%2C%22fsPath%22%3A%22e%3A%5C%5CPython%5C%5Ctern%5C%5Cchanges.json%22%2C%22_sep%22%3A1%2C%22path%22%3A%22%2FE%3A%2FPython%2Ftern%2Fchanges.json%22%2C%22scheme%22%3A%22file%22%7D%7D)
+#### Example `changes.json` Structure
 
 ```json
 {
@@ -107,3 +82,60 @@ You can also use the [Makefile](http://_vscodecontentref_/#%7B%22uri%22%3A%7B%22
         }
     ]
 }
+```
+
+### Standalone Setup
+
+To use `qwik-tern` as a standalone application, follow these setup instructions.
+
+1. **Create a Virtual Environment**
+
+   ```bash
+   python -m venv venv
+   ```
+
+2. **Activate the Virtual Environment**
+
+   - **On Windows:**
+     ```bash
+     .\venv\Scripts\activate
+     ```
+   - **On macOS/Linux:**
+     ```bash
+     source venv/bin/activate
+     ```
+
+3. **Install Dependencies**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## Running Migrations
+
+The main script, `main.py`, provides commands for running database migrations.
+
+### Migration Commands
+
+To migrate up or down, use the following commands:
+
+- **Migrate Up**
+
+  ```bash
+  python main.py --migrate up
+  ```
+
+- **Migrate Down**
+
+  ```bash
+  python main.py --migrate down
+  ```
+
+These commands apply or roll back changes defined in the `changes.json` file.
+
+---
+
+This expanded documentation provides clear instructions for creating and using `changes.json`, ensuring that users know where to place it and how to format it.
+
+---
+In case you want to contribute please read our [Contribution Guidelines](readme/contributor-guidelines.md).
