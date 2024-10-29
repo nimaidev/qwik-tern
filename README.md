@@ -1,3 +1,11 @@
+[![Releases](https://img.shields.io/github/v/release/nimaidev/qwik-tern)](https://github.com/nimaidev/qwik-tern/releases/tag/v0.0.6)
+[![License](https://img.shields.io/github/license/nimaidev/qwik-tern)](https://github.com/nimaidev/qwik-tern/blob/main/LICENSE)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/nimaidev/qwik-tern/ci.yml?branch=main)](https://github.com/nimaidev/qwik-tern/actions/workflows/ci.yml)
+[![Code Style: PEP8](https://img.shields.io/badge/code%20style-PEP8-brightgreen.svg)](https://www.python.org/dev/peps/pep-0008/)
+[![Last Commit](https://img.shields.io/github/last-commit/nimaidev/qwik-tern)](https://github.com/nimaidev/qwik-tern/commits/main)
+[![Issues](https://img.shields.io/github/issues/nimaidev/qwik-tern)](https://github.com/nimaidev/qwik-tern/issues)
+---
+
 # Qwik-Tern🐧 - MySQL Versioning for Python
 
 ## Overview
