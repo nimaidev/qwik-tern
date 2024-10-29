@@ -3,17 +3,6 @@
 ## Overview
 `qwik-tern` is a database migration tool that helps manage and apply schema changes to a MySQL database. It simplifies the process of updating database structures by defining changes in a single JSON file. Named after the Arctic Tern, a bird famous for its long migration journeys—spanning from 44,000 to 59,000 miles each year—`qwik-tern` enables efficient, reliable migrations for projects that require robust database evolution.
 
-
-Here's an updated documentation that includes details on the `changes.json` file, including its location and structure.
-
----
-
-# qwik-tern Documentation
-
-## Overview
-
-`qwik-tern` is a Python package designed to simplify database migrations. It provides an easy-to-use API for managing migrations directly within your application or as a standalone tool. 
-
 ## Installation
 
 To install `qwik-tern` into an existing Python project, use `pip`:
