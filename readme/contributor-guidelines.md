@@ -63,7 +63,7 @@ To submit a pull request:
 
 ### 6. License
 
-By contributing to `qwik-tern`, you agree that your contributions will be licensed under the [MIT License](https://opensource.org/licenses/MIT).
+By contributing to `qwik-tern`, you agree that your contributions will be licensed under the [GNU GPL-3.0 License](https://www.gnu.org/licenses/gpl-3.0.en.html).
 
 ---
 
