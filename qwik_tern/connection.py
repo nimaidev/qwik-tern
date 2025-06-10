@@ -1,6 +1,6 @@
 from mysql.connector.pooling import MySQLConnectionPool
 from qwik_tern.logger.logger import setup_logger
-from qwik_tern.models.db_config import DbConfig
+from qwik_tern.models.db_config_model import DbConfig
 
 logger = setup_logger(__name__)
 

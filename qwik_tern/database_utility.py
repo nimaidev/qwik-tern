@@ -1,11 +1,31 @@
 import traceback
 from mysql.connector.pooling import MySQLConnectionPool as Pool
+from qwik_tern.config.config_global import GlobalConfig
 from qwik_tern.logger.logger import setup_logger
-from qwik_tern.models.db_config import DbConfig
+from qwik_tern.models.db_config_model import DbConfig
 
 logger = setup_logger(__name__)
 
 class DbUtility:
+    
+    def __init__(self, db_config: DbConfig):
+        """
+        Initialize the database utility with a connection pool.
+        
+        Args:
+            db_config: Database configuration object
+        """
+        try:
+            
+            GlobalConfig.initialize()
+            
+            config = self.get_mysql_db_config(db_config)
+            self.pool = Pool(**config)
+            logger.info("Database connection pool initialized successfully")
+        except Exception as e:
+            logger.error(f"Failed to initialize database connection pool: {e}")
+            logger.error(f"Traceback: {traceback.format_exc()}")
+            raise
     
     @staticmethod    
     def get_mysql_db_config(db_config: DbConfig) -> dict:
@@ -35,21 +55,7 @@ class DbUtility:
             
         return config
         
-    def __init__(self, db_config: DbConfig):
-        """
-        Initialize the database utility with a connection pool.
-        
-        Args:
-            db_config: Database configuration object
-        """
-        try:
-            config = self.get_mysql_db_config(db_config)
-            self.pool = Pool(**config)
-            logger.info("Database connection pool initialized successfully")
-        except Exception as e:
-            logger.error(f"Failed to initialize database connection pool: {e}")
-            logger.error(f"Traceback: {traceback.format_exc()}")
-            raise
+    
         
     def remove_initial_db(self):
         connection = None

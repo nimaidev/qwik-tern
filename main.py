@@ -2,10 +2,9 @@ import os
 import time
 
 from dotenv import load_dotenv
-from qwik_tern.connection import get_connection_pool
 from qwik_tern.database_utility import DbUtility
 from qwik_tern.logger.logger import setup_logger
-from qwik_tern.models.db_config import DbConfig
+from qwik_tern.models.db_config_model import DbConfig
 
 logger = setup_logger(__name__)
 load_dotenv()
