@@ -45,9 +45,14 @@ class GlobalConfig:
                     logger.info(f"Global configuration loaded from {config_file_path}")
                     # Get the root directory (remove the .tern.ini file from path)
                     root_dir = os.path.dirname(config_file_path)
+                    changelog_dir = global_section.get('changelog_dir')
+                    # Remove quotes if present in changelog_dir
+                    if changelog_dir and (changelog_dir.startswith('"') and changelog_dir.endswith('"')) or \
+                                        (changelog_dir.startswith("'") and changelog_dir.endswith("'")):
+                        changelog_dir = changelog_dir[1:-1]
                     global_config_model = GlobalConfigModel(
                         root_dir=root_dir,
-                        changelog_dir=global_section.get('changelog_dir'),
+                        changelog_dir=changelog_dir,
                         log_level=global_section.get('log_level')
                     )
                     logger.info(f"Config: {global_config_model.changelog_dir}")

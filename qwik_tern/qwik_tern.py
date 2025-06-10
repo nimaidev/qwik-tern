@@ -3,10 +3,12 @@ from mysql.connector.pooling import MySQLConnectionPool as Pool
 from qwik_tern.config.config_global import GlobalConfig
 from qwik_tern.logger.logger import setup_logger
 from qwik_tern.models.db_config_model import DbConfig
+from qwik_tern.parser.parse_file import ParseFiles
+from qwik_tern.thread_local import Current
 
 logger = setup_logger(__name__)
 
-class DbUtility:
+class QwikTern:
     
     def __init__(self, db_config: DbConfig):
         """
@@ -26,6 +28,12 @@ class DbUtility:
             logger.error(f"Failed to initialize database connection pool: {e}")
             logger.error(f"Traceback: {traceback.format_exc()}")
             raise
+    
+    @staticmethod
+    def initalize():
+        logger.info(f"Root Dir: {Current.getConfig().root_dir}")
+        file_parser = ParseFiles()
+        file_parser.process_changelog_files()
     
     @staticmethod    
     def get_mysql_db_config(db_config: DbConfig) -> dict:

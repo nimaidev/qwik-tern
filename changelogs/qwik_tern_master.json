@@ -1,0 +1,30 @@
+{
+    "databaseChanges": [
+        {
+            "changeSet": {
+                "key": "10062025-1",
+                "author" : "Nimai C",
+                "type": "query",
+                "pre" : "",
+                "onFail" : "",
+                "changes": {
+                    "addTable" : {
+                        "name": "nimai_test",
+                        "addColumns":[
+                            {
+                                "name" : "id",
+                                "nullable" : true,
+                                "primaryKey" : true,
+                                "autoIncrement" : true,
+                                "default" : 0
+                            }
+                        ]
+                    }
+                },
+                "rollback": "",
+                "comment" : "."
+            }
+        }
+        
+    ]
+}
