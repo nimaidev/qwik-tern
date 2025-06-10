@@ -12,6 +12,13 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     # "Operating System :: OS Independent",
 ]
+dependencies = [
+    "colorlog>=6.9.0",
+    "coverage>=7.6.1",
+    "mysql-connector>=2.2.9",
+    "pymysql-pooling>=1.0.6",
+    "python-dotenv>=1.0.1",
+]
 
 [project.urls]
 Homepage = "https://github.com/nimaidev/tern"

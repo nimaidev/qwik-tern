@@ -1,6 +1,6 @@
 import argparse
 from qwik_tern.connection import create_internal_db, get_connection_pool
-from qwik_tern.logger import setup_logger
+from qwik_tern.logger.logger import setup_logger
 from qwik_tern.migration import run_default_migration, run_migration_down
 
 logger = setup_logger(__name__)

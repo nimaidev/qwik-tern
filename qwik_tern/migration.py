@@ -4,7 +4,7 @@ import pandas as pd
 from qwik_tern.connection import MySQLConnectionPool
 import sys
 
-from qwik_tern.logger import setup_logger
+from qwik_tern.logger.logger import setup_logger
 
 logger = setup_logger(__name__)
 
