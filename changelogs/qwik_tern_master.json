@@ -5,6 +5,31 @@
                 "key": "10062025-1",
                 "author" : "Nimai C",
                 "type": "query",
+                "pre" : "HELLO",
+                "onFail" : "",
+                "changes": {
+                    "addTable" : {
+                        "name": "nimai_test",
+                        "addColumns":[
+                            {
+                                "name" : "id",
+                                "nullable" : true,
+                                "primaryKey" : true,
+                                "autoIncrement" : true,
+                                "default" : 0
+                            }
+                        ]
+                    }
+                },
+                "rollback": "",
+                "comment" : "."
+            }
+        },
+        {
+            "changeSet": {
+                "key": "10062025-3",
+                "author" : "Nimai C",
+                "type": "query",
                 "pre" : "",
                 "onFail" : "",
                 "changes": {
@@ -25,6 +50,5 @@
                 "comment" : "."
             }
         }
-        
     ]
 }
