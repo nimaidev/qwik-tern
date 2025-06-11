@@ -3,8 +3,8 @@
 import sys
 from qwik_tern.logger.logger import setup_logger
 from qwik_tern.models.changelog_model import DBChangelogModel
+from qwik_tern.sql.handlers.command_handler import ChangelogCommandHandler
 from qwik_tern.validator.sql_validator import SQLValidator
-from sql.handlers.command_handler import ChangelogCommandHandler
 
 logger = setup_logger(__name__)
 

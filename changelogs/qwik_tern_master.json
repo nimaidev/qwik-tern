@@ -10,9 +10,10 @@
                 "changes": {
                     "createTable" : {
                         "name": "nimai_test",
-                        "addColumns":[
+                        "columns":[
                             {
                                 "name" : "id",
+                                "type" : "INT",
                                 "nullable" : true,
                                 "primaryKey" : true,
                                 "autoIncrement" : true,
