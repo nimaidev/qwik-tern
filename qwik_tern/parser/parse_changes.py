@@ -19,7 +19,7 @@ class ChangesParser:
             # logger.debug(self.db_changes.pre)
             if self.db_changes.pre is not None :
                 if isinstance(self.db_changes.pre, str) and self.db_changes.pre != "":
-                    sql_validator.validate_pre_condition(self.db_changes.pre)
+                    return sql_validator.validate_pre_condition(self.db_changes.pre)
                     # TODO: Need to add later
                 else:
                     raise Exception(f"Invalid PRE condition: {self.db_changes.pre}")
@@ -33,7 +33,7 @@ class ChangesParser:
                 changelogCommandHandler = ChangelogCommandHandler()
                 changelogCommandHandler.handle(self.db_changes.changes)
             else:
-                raise Exception("Atleast one changelog required for changelog execution")
+                raise Exception("At least one changelog required for changelog execution")
             
             
         except Exception as e:

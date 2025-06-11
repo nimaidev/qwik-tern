@@ -1,6 +1,19 @@
 {
     "databaseChanges": [
         {
+            
+            "changeSet": {
+                "key": "10062025-1",
+                "author" : "Nimai C",
+                "onFail" : "",
+                "changes": [{
+                    "sql" : "CREATE TABLE IF NOT EXISTS nimai_test (id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id))"
+                }],
+                "rollback": "",
+                "comment" : "."
+            }
+        },
+        {
             "changeSet": {
                 "key": "10062025-1",
                 "author" : "Nimai C",

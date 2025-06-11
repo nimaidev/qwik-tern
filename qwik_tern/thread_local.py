@@ -1,6 +1,7 @@
 import threading
 
 from qwik_tern.models.global_config_model import GlobalConfigModel
+from mysql.connector.pooling import MySQLConnectionPool
 
 
 class Current:
@@ -13,3 +14,12 @@ class Current:
     @classmethod
     def getConfig(cls) -> GlobalConfigModel:
         return cls._thread_local.config
+    
+    
+    @classmethod
+    def setConnectionPool(cls, pool : MySQLConnectionPool):
+        cls._thread_local.cnx_pool = pool
+        
+    @classmethod
+    def getConnectionPool(cls) -> MySQLConnectionPool:
+        return cls._thread_local.cnx_pool

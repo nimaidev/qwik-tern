@@ -17,7 +17,7 @@ class CreateTableHelper:
                     else:
                         raise Exception("Invalid column configuration")
                 else:
-                    raise Exception("A table must have atleast one column")
+                    raise Exception("A table must have at least one column")
             else:
                 raise Exception("A table must have a name")
         except Exception as e:

@@ -67,7 +67,7 @@ class ParseFiles:
             )
             # logger.info(changelog_model.key)
             change_parser = ChangesParser(changelog_model)
-            change_parser.validate()
+            is_valid = change_parser.validate()
         except Exception as e:
             if isinstance(e, KeyError):
                 logger.critical(f"Invalid Key: {e}")

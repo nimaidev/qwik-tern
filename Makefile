@@ -1,4 +1,5 @@
 run:
+	@clear
 	@uv run main.py
 
 clean:
