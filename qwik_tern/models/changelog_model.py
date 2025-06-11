@@ -14,5 +14,5 @@ class DBChangelogModel():
         self.author = author
         self.pre = pre
         self.changes = changes
-        self.rollback = rollback,
+        self.rollback = rollback
         self.comment = comment

@@ -5,10 +5,10 @@
                 "key": "10062025-1",
                 "author" : "Nimai C",
                 "type": "query",
-                "pre" : "HELLO",
+                "pre" : "SELECT 1",
                 "onFail" : "",
                 "changes": {
-                    "addTable" : {
+                    "createTable" : {
                         "name": "nimai_test",
                         "addColumns":[
                             {
@@ -30,7 +30,6 @@
                 "key": "10062025-3",
                 "author" : "Nimai C",
                 "type": "query",
-                "pre" : "",
                 "onFail" : "",
                 "changes": {
                     "addTable" : {

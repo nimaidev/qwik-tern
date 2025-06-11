@@ -1,5 +1,4 @@
 import os
-import time
 
 from dotenv import load_dotenv
 from qwik_tern.qwik_tern import QwikTern
@@ -19,10 +18,8 @@ def main():
         )
     qwik_tern = QwikTern(config)
     
-    qwik_tern.initalize()
-    qwik_tern.remove_initial_db()
-    time.sleep(2)
-    qwik_tern.check_or_create_initial_db()
+    qwik_tern.initialize()
+
     
 if __name__ == '__main__':
     main()

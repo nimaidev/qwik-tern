@@ -1,3 +1,4 @@
+import time
 import traceback
 from mysql.connector.pooling import MySQLConnectionPool as Pool
 from qwik_tern.config.config_global import GlobalConfig
@@ -20,20 +21,23 @@ class QwikTern:
         try:
             
             GlobalConfig.initialize()
-            
-            config = self.get_mysql_db_config(db_config)
-            self.pool = Pool(**config)
+            #!IMPORTANT: UNCOMMENT FOR  DB MANUPULATION
+            # config = self.get_mysql_db_config(db_config)
+            # self.pool = Pool(**config)
             logger.info("Database connection pool initialized successfully")
         except Exception as e:
             logger.error(f"Failed to initialize database connection pool: {e}")
             logger.error(f"Traceback: {traceback.format_exc()}")
             raise
     
-    @staticmethod
-    def initalize():
+    def initialize(self):
+        # self.remove_initial_db()
+        time.sleep(2)
+        # self.check_or_create_initial_db()
         logger.info(f"Root Dir: {Current.getConfig().root_dir}")
         file_parser = ParseFiles()
         file_parser.process_changelog_files()
+    
     
     @staticmethod    
     def get_mysql_db_config(db_config: DbConfig) -> dict:
@@ -64,7 +68,6 @@ class QwikTern:
         return config
         
     
-        
     def remove_initial_db(self):
         connection = None
         cursor = None
@@ -81,7 +84,6 @@ class QwikTern:
                 cursor.close()
             if connection:
                 connection.close()
-        
     def check_or_create_initial_db(self) -> bool:
         """
         Check if the TERNCHANGELOGMASTER table exists in the database

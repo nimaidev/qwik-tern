@@ -41,9 +41,9 @@ class ParseFiles:
                 if database_changes is None:
                     logger.critical("INVALID changelog file!!!")
                     sys.exit(0)
-                logger.info(f"json data {len(database_changes)}")
+                # logger.info(f"json data {len(database_changes)}")
                 for change_set in database_changes:
-                    logger.info(f"changeset : {change_set}")
+                    # logger.info(f"changeset : {change_set}")
                     self.validate_changes(change_set)
                     
         except Exception as e:
@@ -65,7 +65,7 @@ class ParseFiles:
                 rollback=changelog.get("rollback"),
                 comment=changelog.get("comment")
             )
-            logger.info(changelog_model.key)
+            # logger.info(changelog_model.key)
             change_parser = ChangesParser(changelog_model)
             change_parser.validate()
         except Exception as e:
