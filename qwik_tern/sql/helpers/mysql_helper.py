@@ -42,3 +42,46 @@ class MySQLHelper:
                 cursor.close()
             if connection:
                 connection.close()
+                
+    def execute_count(self, raw_sql: str, params=None) -> int:
+        """
+        Executes the given SQL query and returns the count result.
+
+        Args:
+            raw_sql (str): The SQL query to execute.
+            params (tuple, optional): Parameters to pass to the SQL query.
+
+        Returns:
+            int: The count result from the query, or 0 if execution failed.
+        """
+        cnx_pool = None
+        connection = None
+        cursor = None
+        try:
+            cnx_pool = Current.getConnectionPool()
+            if cnx_pool is None:
+                raise Exception("Unable to acquire connection pool")
+            connection = cnx_pool.get_connection()
+            cursor = connection.cursor()
+            if params:
+                cursor.execute(raw_sql, params)
+            else:
+                cursor.execute(raw_sql)
+            
+            # Get the count result
+            result = cursor.fetchone()
+            count = result[0] if result else 0
+            
+            connection.commit()
+            logger.info(f"SUCCESS - Count: {count}")
+            return count
+        except Exception as e:
+            if connection:
+                connection.rollback()
+            logger.error(f"Failed to execute count SQL: {e}")
+            return 0
+        finally:
+            if cursor:
+                cursor.close()
+            if connection:
+                connection.close()

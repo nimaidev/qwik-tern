@@ -6,6 +6,7 @@ import sys
 from qwik_tern.logger.logger import setup_logger
 from qwik_tern.models.changelog_model import DBChangelogModel
 from qwik_tern.parser.parse_changes import ChangesParser
+from qwik_tern.sql.handlers.changelog_handler import ChangelogHandler
 from qwik_tern.sql.handlers.command_handler import ChangelogCommandHandler
 from qwik_tern.thread_local import Current
 
@@ -66,7 +67,14 @@ class ParseFiles:
                 rollback=changelog.get("rollback"),
                 comment=changelog.get("comment")
             )
-            # logger.info(changelog_model.key)
+            changelog_handler = ChangelogHandler()
+            if changelog_handler.check_if_executed(changelog=changelog_model):
+                #  check if check sum is correct
+                if changelog_handler.checksum_check():
+                    pass
+                else:
+                    # TODO: 
+                    logger.critical("Checksum ")
             change_parser = ChangesParser(changelog_model)
             is_valid = change_parser.validate()
             logger.debug(f"{changelog_model.key} : {is_valid}")
