@@ -30,8 +30,7 @@ class ChangesParser:
             
             
             if self.db_changes.changes is not None:
-                changelogCommandHandler = ChangelogCommandHandler()
-                changelogCommandHandler.handle(self.db_changes.changes)
+                return True
             else:
                 raise Exception("At least one changelog required for changelog execution")
             

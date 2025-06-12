@@ -15,17 +15,17 @@ class ChangelogCommandHandler:
     def __init__(self):
         pass
     
-    def handle(self, changes : any):
+    def handle(self, changes : any) -> bool:
         try:
             # Get the first key name
             if isinstance(changes, dict) and len(changes) > 0:
                 cmd = next(iter(changes))
-                self.handle_cmd(cmd=cmd, data=changes.get(cmd))
+                return self.handle_cmd(cmd=cmd, data=changes.get(cmd))
             elif isinstance(changes, list) and len(changes) > 0:
                 for change in changes:
                     if isinstance(change, dict) and len(change) > 0:
                         cmd = next(iter(change))
-                        self.handle_cmd(cmd=cmd, data=change.get(cmd))
+                        return self.handle_cmd(cmd=cmd, data=change.get(cmd))
                     else:
                         raise Exception("Invalid command format in changes list")
             else:
@@ -33,7 +33,7 @@ class ChangelogCommandHandler:
         except Exception as e:
             logger.error(f"{e}")   
     
-    def handle_cmd(self, cmd :str, data: any):
+    def handle_cmd(self, cmd :str, data: any) -> bool:
         try:
             if cmd in TERN_CMD_LIST:
                 match cmd:

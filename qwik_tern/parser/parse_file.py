@@ -6,6 +6,7 @@ import sys
 from qwik_tern.logger.logger import setup_logger
 from qwik_tern.models.changelog_model import DBChangelogModel
 from qwik_tern.parser.parse_changes import ChangesParser
+from qwik_tern.sql.handlers.command_handler import ChangelogCommandHandler
 from qwik_tern.thread_local import Current
 
 logger = setup_logger(__name__)
@@ -68,6 +69,14 @@ class ParseFiles:
             # logger.info(changelog_model.key)
             change_parser = ChangesParser(changelog_model)
             is_valid = change_parser.validate()
+            logger.debug(f"{changelog_model.key} : {is_valid}")
+            if is_valid:
+                changelogCommandHandler = ChangelogCommandHandler()
+                cmd_status = changelogCommandHandler.handle(changelog_model.changes)
+                logger.debug(f"{changelog_model.key} : COMMAND STATUS: {cmd_status}")
+                
+                if cmd_status:
+                    logger.info(f"{changelog_model.key} executed successfully")
         except Exception as e:
             if isinstance(e, KeyError):
                 logger.critical(f"Invalid Key: {e}")
