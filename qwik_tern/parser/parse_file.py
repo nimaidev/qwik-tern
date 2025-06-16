@@ -68,9 +68,11 @@ class ParseFiles:
                 comment=changelog.get("comment")
             )
             changelog_handler = ChangelogHandler()
+            changelog_handler.calculate_checksum(changelog=changelog_model)
             if changelog_handler.check_if_executed(changelog=changelog_model):
                 #  check if check sum is correct
-                if changelog_handler.checksum_check():
+                checksum_old = changelog_handler.calculate_checksum(changelog=changelog_model)
+                if changelog_handler.checksum_check(checksum_old):
                     pass
                 else:
                     # TODO: 
